@@ -1,23 +1,39 @@
-# TECHIN515 Magic Wand: Gesture Recognition System
+## Setup Instructions and How to Run
 
-This is the final project for TECHIN515 — a real-time gesture recognition system using an ESP32-based motion wand. The system captures hand movement using an onboard IMU, collects data via Python, trains a machine learning model using Edge Impulse, and enables on-device inference for gesture-controlled interaction.
+### 1. Install Dependencies
 
----
+Make sure you have the following installed:
 
-## Features
+- **Arduino IDE** with **ESP32 board support**  
+  → Install from Boards Manager: `esp32 by Espressif Systems`
 
-- Real-time gesture recognition for hand-drawn "O", "V", and "Z"
-- Motion data captured via ESP32 + IMU (accelerometer + gyroscope)
-- Python-based data logger through serial port
-- Edge Impulse model training and deployment to microcontroller
-- Compact, enclosed wand hardware design with integrated power
+- **Required Arduino libraries** (install via Library Manager):
+  - `Adafruit_MPU6050`
+  - `Adafruit_Sensor`
+  - `Wire`
 
----
+- **Python 3** (if collecting gesture data using `process_gesture_data.py`)
 
-## Setup Instructions
+### 2. Upload Edge Impulse Model
 
-### 1. Clone this repository
+- Train and export your gesture recognition model from Edge Impulse.
+- Select **Arduino library export (Quantized int8)**.
+- Place the exported `.h`, `.cpp`, and model folders in the same directory as `wand.ino`.
 
-```bash
-git clone https://github.com/yourusername/TECHIN515-magic-wand.git
-cd TECHIN515-magic-wand
+### 3. Flash Code to ESP32
+
+- Open `wand.ino` in Arduino IDE.
+- Select **Board**: `ESP32C3 Dev Module`
+- Select correct **COM Port**
+- Click **Upload**
+
+### 4. Run the Magic Wand
+
+- Power on the ESP32 (via battery or USB).
+- Perform a gesture (O / V / Z).
+- Press the button (connected to GPIO3) to trigger recognition.
+- The onboard LED will flash according to the gesture:
+  - O → 1 flash
+  - V → 2 flashes
+  - Z → 3 flashes
+- Prediction and confidence score will also appear in the **Serial Monitor**.
